@@ -5,13 +5,35 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       ACCEPT_EULA: 'Y'
-      MSSQL_SA_PASSWORD: 'Pwd123!$'
+      MSSQL_SA_PASSWORD: 'Pwd1234!'
       MSSQL_DATA_DIR: /var/opt/mssql/data
       MSSQL_PID: 'Developer' 
       MSSQL_TCP_PORT: 1433 
     ports: 
       - "1433:1433"
     volumes:
-      - ./data:/var/opt/mssql/data
-      - ./log:/var/opt/mssql/log
-      - ./secrets:/var/opt/mssql/secrets
+      - mssql_data:/var/opt/mssql/data
+      - mssql_log:/var/opt/mssql/log
+      - mssql_secrets:/var/opt/mssql/secrets
+
+volumes:
+  mssql_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/dockerVolumes/mssql/data
+
+  mssql_log:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/dockerVolumes/mssql/log
+
+  mssql_secrets:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/dockerVolumes/mssql/secrets
